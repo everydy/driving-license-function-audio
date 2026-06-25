@@ -75,6 +75,7 @@ let emergencyTimer = null;
 let emergencyLoopActive = false;
 let emergencyLive = false;
 let emergencyStart = 0;
+let activeHeroAction = "";
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -94,6 +95,16 @@ const emergencyLoopState = $("#emergencyLoopState");
 const signalLight = $("#signalLight");
 const emergencyMinInput = $("#emergencyMinSeconds");
 const emergencyMaxInput = $("#emergencyMaxSeconds");
+const heroActionButtons = [...document.querySelectorAll(".hero-action-button")];
+
+function setHeroActionState(action) {
+  activeHeroAction = action;
+  heroActionButtons.forEach((button) => {
+    const isActive = button.dataset.actionState === activeHeroAction;
+    button.classList.toggle("is-action-active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+}
 
 function setAudioStatus(text, ready = false) {
   audioStatus.textContent = text;
@@ -159,6 +170,26 @@ function playStandaloneClip(id) {
 
 function playSuccessChime() {
   playStandaloneClip("success-chime");
+}
+
+function playHeroCurrent() {
+  setHeroActionState("current");
+  playActiveQueueClip();
+}
+
+function playHeroNext() {
+  setHeroActionState("next");
+  playNextInActiveQueue();
+}
+
+function stopHeroPlayback() {
+  setHeroActionState("stop");
+  stopQueuePlayback();
+}
+
+function playHeroSuccessChime() {
+  setHeroActionState("success");
+  playSuccessChime();
 }
 
 function clipsFromIds(ids) {
@@ -494,12 +525,12 @@ function bindTabs() {
   });
 }
 
-$("#playCurrentButton").addEventListener("click", playActiveQueueClip);
-$("#nextClipButton").addEventListener("click", playNextInActiveQueue);
-$("#stopPlaybackButton").addEventListener("click", stopQueuePlayback);
+$("#playCurrentButton").addEventListener("click", playHeroCurrent);
+$("#nextClipButton").addEventListener("click", playHeroNext);
+$("#stopPlaybackButton").addEventListener("click", stopHeroPlayback);
 $("#startFullSequenceButton").addEventListener("click", startFullSequence);
 $("#fullCurrentButton").addEventListener("click", playFullCurrent);
-$("#successChimeButton").addEventListener("click", playSuccessChime);
+$("#successChimeButton").addEventListener("click", playHeroSuccessChime);
 $("#randomInfiniteButton").addEventListener("click", startRandomInfiniteControls);
 $("#actualTwoButton").addEventListener("click", startActualExamTwoControls);
 $("#allControlsButton").addEventListener("click", startAllControlsSequential);
