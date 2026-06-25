@@ -59,15 +59,12 @@ button {
   font-weight: 700;
 }
 
-.brand-note {
+.brand-subtitle {
   margin: 6px 0 0;
   color: var(--muted);
   letter-spacing: 0;
-}
-
-.brand-note {
-  font-size: 13px;
-  line-height: 1.35;
+  font-size: 15px;
+  font-weight: 800;
 }
 
 h1,
@@ -81,20 +78,6 @@ h1 {
   margin: 0;
   font-size: 34px;
   line-height: 1.15;
-}
-
-.brand-title {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  column-gap: 8px;
-  row-gap: 2px;
-}
-
-.brand-title span {
-  color: var(--muted);
-  font-size: 15px;
-  font-weight: 800;
 }
 
 h2 {
