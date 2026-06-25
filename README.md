@@ -1,6 +1,8 @@
-# Driving License Function Audio Practice
+# LiCue
 
-Korean driving-license closed-course function-test audio practice app.
+License + Cue. Korean driver license closed-course audio practice for Class 2 function-test preparation.
+
+LiCue is an MP3-only audio assistant for practicing the real-style voice prompt flow used in the Korean driving-license closed-course skills test.
 
 This is a static HTML/CSS/JavaScript app. It uses bundled MP3 files only and does not require a build step, server framework, package install, or external API.
 
@@ -55,4 +57,3 @@ audio/
 - This is an unofficial practice aid and is not affiliated with a licensing authority.
 - The repository intentionally excludes local source videos, ASR models, review clips, transcripts, and generated work files.
 - No open-source license has been selected yet.
-
