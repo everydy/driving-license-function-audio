@@ -1,0 +1,24 @@
+.DS_Store
+
+# Local source media, ASR models, generated review assets
+downloads/
+models/
+work/
+transcripts/
+review/
+.codex-flow/
+docs/
+scripts/
+PLAN.md
+research.md
+
+# Audio production and QA folders not used by the deployed app
+audio/.DS_Store
+audio/archive/
+audio/candidates/
+audio/review-segments/
+audio/test-clips/
+
+# Python cache
+__pycache__/
+*.pyc

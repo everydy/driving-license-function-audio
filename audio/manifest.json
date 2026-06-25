@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "mode": "mp3-only",
+  "effects": [
+    {
+      "id": "success-chime",
+      "label": "성공음",
+      "file": "sfx/success-chime.mp3",
+      "text": "시동 및 기능조작 성공 후 재생하는 띵도동 효과음"
+    }
+  ],
+  "clips": [
+    {
+      "id": "pre-exam-notice",
+      "label": "시험 시작 안내",
+      "file": "1-pre-exam-notice.mp3",
+      "text": "잠시 후 시험을 시작하겠습니다. 시험은 지시에 따라 진행하며 지시와 다른 장치를 조작할 경우 감점될 수 있으니 유의하시기 바랍니다."
+    },
+    {
+      "id": "engine-start",
+      "label": "시동",
+      "file": "2-engine-start.mp3",
+      "text": "지금부터 시험을 시작하겠습니다. 5초 이내에 엔진 시동을 거세요."
+    },
+    {
+      "id": "control-intro",
+      "label": "운전장치 공통 안내",
+      "file": "3-control-intro.mp3",
+      "text": "운전장치 조작 능력은 주차 브레이크를 그대로 둔 상태에서 4개 항목 중 2개 항목을 평가합니다."
+    },
+    {
+      "id": "gear-drive",
+      "label": "기어변속 D",
+      "file": "4-3-1-gear-drive.mp3",
+      "text": "기어 변속 능력을 점검합니다. 10초 내에 변속기 레버를 드라이브에 넣었다가 다시 파킹 위치로 전환하세요."
+    },
+    {
+      "id": "headlight-on",
+      "label": "전조등 켜기",
+      "file": "4-2-1-headlight-on.mp3",
+      "text": "전조등 조작 능력을 점검합니다. 지시에 따라 전조등을 켠 후 상향등 하향등 조작을 각 1회씩 실시합니다. 먼저 5초 내에 전조등을 켜세요."
+    },
+    {
+      "id": "headlight-high",
+      "label": "상향등 전환",
+      "file": "4-2-2-headlight-high.mp3",
+      "text": "5초 내에 상향등으로 전환하세요."
+    },
+    {
+      "id": "headlight-low-off",
+      "label": "하향등 전환 후 끄기",
+      "file": "4-2-3-headlight-low-off.mp3",
+      "text": "5초 내에 하향등으로 전환한 후 전조등을 끄세요."
+    },
+    {
+      "id": "indicator-left-on",
+      "label": "좌측 방향지시등 켜기",
+      "file": "4-1-1-1-left-indicator-on.mp3",
+      "text": "방향지시등 조작 능력을 점검합니다. 5초 내에 좌측 방향지시등을 켜세요."
+    },
+    {
+      "id": "indicator-left-off",
+      "label": "좌측 방향지시등 끄기",
+      "file": "4-1-1-2-left-indicator-off.mp3",
+      "text": "5초 내에 방향지시등을 끄세요."
+    },
+    {
+      "id": "indicator-right-on",
+      "label": "우측 방향지시등 켜기",
+      "file": "4-1-2-1-right-indicator-on.mp3",
+      "text": "방향지시등 조작 능력을 점검합니다. 5초 내에 우측 방향지시등을 켜세요."
+    },
+    {
+      "id": "indicator-right-off",
+      "label": "우측 방향지시등 끄기",
+      "file": "4-1-2-2-right-indicator-off.mp3",
+      "text": "5초 내에 방향지시등을 끄세요."
+    },
+    {
+      "id": "wiper-on",
+      "label": "와이퍼 켜기",
+      "file": "4-4-1-wiper-on.mp3",
+      "text": "와이퍼 조작 능력을 점검합니다. 5초 내에 와이퍼를 작동하세요."
+    },
+    {
+      "id": "wiper-off",
+      "label": "와이퍼 끄기",
+      "file": "4-4-2-wiper-off.mp3",
+      "text": "5초 내에 와이퍼를 끄세요."
+    },
+    {
+      "id": "departure",
+      "label": "출발 지시 안내",
+      "file": "5-departure.mp3",
+      "text": "지금부터 기본 주행능력을 점검합니다. 주행 속도는 시속 20km 미만을 유지하십시오. 그럼 시작하겠습니다. 주차 브레이크를 해제하고 출발하세요."
+    },
+    {
+      "id": "emergency",
+      "label": "돌발",
+      "file": "6-1-emergency.mp3",
+      "text": "돌발, 돌발, 돌발."
+    }
+  ]
+}

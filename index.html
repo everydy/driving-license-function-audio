@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>운전면허 기능시험 MP3 연습</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">MP3 전용 · 장내기능</p>
+          <h1>기능시험 음성 연습</h1>
+        </div>
+        <div class="status-panel" aria-live="polite">
+          <span class="status-dot" id="audioStatusDot"></span>
+          <span id="audioStatus">대기</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero-band">
+          <div class="hero-copy">
+            <p class="mode-label">현재 음성</p>
+            <h2 id="currentClipTitle">시험 시작 안내</h2>
+            <p id="currentClipText">잠시 후 시험을 시작하겠습니다. 시험은 지시에 따라 진행하며 지시와 다른 장치를 조작할 경우 감점될 수 있으니 유의하시기 바랍니다.</p>
+            <small id="currentClipFile">audio/1-pre-exam-notice.mp3</small>
+          </div>
+          <div class="hero-actions">
+            <button class="secondary-action" id="playCurrentButton" type="button">현재 재생</button>
+            <button class="secondary-action" id="nextClipButton" type="button">다음 재생</button>
+            <button class="secondary-action" id="stopPlaybackButton" type="button">중지</button>
+            <button class="icon-action" id="successChimeButton" type="button" aria-label="성공음 재생" title="성공음">✓</button>
+          </div>
+        </section>
+
+        <nav class="mode-tabs" aria-label="연습 모드">
+          <button class="tab-button is-active" type="button" data-tab="full">전체 순차</button>
+          <button class="tab-button" type="button" data-tab="parts">파트별 재생</button>
+          <button class="tab-button" type="button" data-tab="emergency">돌발 반복</button>
+          <button class="tab-button" type="button" data-tab="library">음원</button>
+          <button class="tab-button" type="button" data-tab="needed">추가 필요</button>
+        </nav>
+
+        <section class="tab-panel is-active" id="fullPanel">
+          <div class="section-heading">
+            <h2>전체 순차 재생</h2>
+            <div class="button-row">
+              <button class="primary-action" id="startFullSequenceButton" type="button">처음부터 자동 재생</button>
+              <button class="secondary-action" id="fullCurrentButton" type="button">선택 음성 재생</button>
+            </div>
+          </div>
+          <div class="queue-list" id="fullQueueList"></div>
+        </section>
+
+        <section class="tab-panel" id="partsPanel">
+          <div class="section-heading">
+            <h2>파트별 재생</h2>
+            <span class="soft-badge" id="partModeLabel">파트별 큐 없음</span>
+          </div>
+
+          <div class="mode-card-grid">
+            <article class="mode-card">
+              <h3>기능조작 무한 랜덤</h3>
+              <p>4종류 중 하나를 계속 랜덤으로 뽑아서 멈출 때까지 반복 재생합니다.</p>
+              <button class="primary-action" id="randomInfiniteButton" type="button">무한 랜덤 시작</button>
+            </article>
+            <article class="mode-card">
+              <h3>실제시험 2개 랜덤</h3>
+              <p>공통 안내 뒤 4종류 중 2개를 랜덤으로 뽑아 한 세트만 재생합니다.</p>
+              <button class="primary-action" id="actualTwoButton" type="button">2개 랜덤 재생</button>
+            </article>
+            <article class="mode-card">
+              <h3>4종류 순차</h3>
+              <p>기어, 전조등, 방향지시등, 와이퍼를 순서대로 재생합니다. 방향지시등은 좌/우 중 하나를 뽑습니다.</p>
+              <button class="primary-action" id="allControlsButton" type="button">4종 순차 재생</button>
+            </article>
+            <article class="mode-card">
+              <h3>제어</h3>
+              <p>현재 파트별 자동 재생을 멈추거나 성공음을 따로 재생합니다.</p>
+              <div class="button-row">
+                <button class="secondary-action" id="partStopButton" type="button">파트 재생 중지</button>
+                <button class="secondary-action" id="partSuccessButton" type="button">성공음</button>
+              </div>
+            </article>
+          </div>
+
+          <div class="queue-list" id="partQueueList"></div>
+        </section>
+
+        <section class="tab-panel" id="emergencyPanel">
+          <div class="section-heading">
+            <h2>돌발 반복</h2>
+            <span class="soft-badge" id="emergencyLoopState">중지</span>
+          </div>
+          <div class="timer-controls">
+            <label>
+              <span>최소 초</span>
+              <input id="emergencyMinSeconds" type="number" min="0" step="1" value="0">
+            </label>
+            <label>
+              <span>최대 초</span>
+              <input id="emergencyMaxSeconds" type="number" min="0" step="1" value="60">
+            </label>
+            <button class="primary-action" id="startEmergencyLoopButton" type="button">랜덤 반복 시작</button>
+            <button class="secondary-action" id="stopEmergencyLoopButton" type="button">반복 중지</button>
+          </div>
+          <div class="emergency-stage">
+            <div class="signal-light" id="signalLight" aria-hidden="true"></div>
+            <div>
+              <p class="mode-label">상태</p>
+              <h3 id="emergencyTitle">대기</h3>
+              <p id="emergencyText">기본값은 0~60초 랜덤 반복입니다.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="libraryPanel">
+          <div class="section-heading">
+            <h2>음원 목록</h2>
+            <span class="soft-badge">TTS 없음</span>
+          </div>
+          <div class="clip-grid" id="libraryList"></div>
+        </section>
+
+        <section class="tab-panel" id="neededPanel">
+          <div class="section-heading">
+            <h2>추가 필요</h2>
+            <span class="soft-badge">현재 보류 항목</span>
+          </div>
+          <div class="needed-list" id="neededList"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
