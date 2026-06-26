@@ -328,6 +328,15 @@ h3 {
   font-weight: 800;
 }
 
+.full-action-button.is-selected {
+  background: var(--color-action);
+  border-color: var(--color-action);
+  color: var(--color-on-action);
+  box-shadow:
+    inset 0 -3px 0 rgba(255, 255, 255, 0.22),
+    0 10px 22px rgba(19, 111, 99, 0.2);
+}
+
 .hero-action-button.is-action-active {
   border-color: rgba(255, 255, 255, 0.82);
   background: rgba(255, 255, 255, 0.2);
@@ -359,6 +368,14 @@ h3 {
 .mini-action:hover {
   border-color: rgba(19, 111, 99, 0.48);
   background: var(--color-surface-raised);
+}
+
+.full-action-button.is-selected:hover {
+  background: var(--color-action-hover);
+  border-color: var(--color-action-hover);
+  box-shadow:
+    inset 0 -3px 0 rgba(255, 255, 255, 0.28),
+    0 12px 24px rgba(19, 111, 99, 0.24);
 }
 
 .hero-band .secondary-action:hover {

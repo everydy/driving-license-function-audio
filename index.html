@@ -77,8 +77,8 @@
           <div class="section-heading">
             <h2>전체 순차 재생</h2>
             <div class="button-row">
-              <button class="primary-action" id="startFullSequenceButton" type="button">처음부터 자동 재생</button>
-              <button class="secondary-action" id="fullCurrentButton" type="button">선택 음성 재생</button>
+              <button class="secondary-action full-action-button" id="startFullSequenceButton" type="button" data-full-action="auto" aria-pressed="false">처음부터 자동 재생</button>
+              <button class="secondary-action full-action-button is-selected" id="fullCurrentButton" type="button" data-full-action="current" aria-pressed="true">선택 음성 재생</button>
             </div>
           </div>
           <div class="queue-list" id="fullQueueList"></div>

@@ -76,6 +76,7 @@ let emergencyLoopActive = false;
 let emergencyLive = false;
 let emergencyStart = 0;
 let activeHeroAction = "";
+let activeFullAction = "current";
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -96,6 +97,7 @@ const signalLight = $("#signalLight");
 const emergencyMinInput = $("#emergencyMinSeconds");
 const emergencyMaxInput = $("#emergencyMaxSeconds");
 const heroActionButtons = [...document.querySelectorAll(".hero-action-button")];
+const fullActionButtons = [...document.querySelectorAll(".full-action-button")];
 
 function setHeroActionState(action) {
   activeHeroAction = action;
@@ -103,6 +105,15 @@ function setHeroActionState(action) {
     const isActive = button.dataset.actionState === activeHeroAction;
     button.classList.toggle("is-action-active", isActive);
     button.setAttribute("aria-pressed", String(isActive));
+  });
+}
+
+function setFullActionState(action) {
+  activeFullAction = action;
+  fullActionButtons.forEach((button) => {
+    const isSelected = button.dataset.fullAction === activeFullAction;
+    button.classList.toggle("is-selected", isSelected);
+    button.setAttribute("aria-pressed", String(isSelected));
   });
 }
 
@@ -174,16 +185,19 @@ function playSuccessChime() {
 
 function playHeroCurrent() {
   setHeroActionState("current");
+  if (activeQueueName === "전체 순차") setFullActionState("current");
   playActiveQueueClip();
 }
 
 function playHeroPrevious() {
   setHeroActionState("previous");
+  if (activeQueueName === "전체 순차") setFullActionState("current");
   playPreviousInActiveQueue();
 }
 
 function playHeroNext() {
   setHeroActionState("next");
+  if (activeQueueName === "전체 순차") setFullActionState("current");
   playNextInActiveQueue();
 }
 
@@ -319,6 +333,7 @@ function renderQueueList(container, queue, heading, currentIndex) {
       activeQueue = queue;
       activeQueueIndex = index;
       activeQueueMode = "manual";
+      if (heading === "전체 순차") setFullActionState("current");
       renderQueues();
       playActiveQueueClip();
     });
@@ -411,12 +426,14 @@ function playPreviousInActiveQueue() {
 }
 
 function startFullSequence() {
+  setFullActionState("auto");
   setActiveQueue("전체 순차", clipsFromIds(fullSequenceIds), "auto");
   infiniteControlMode = false;
   playActiveQueueClip();
 }
 
 function playFullCurrent() {
+  setFullActionState("current");
   if (activeQueueName !== "전체 순차") {
     setActiveQueue("전체 순차", clipsFromIds(fullSequenceIds), "manual");
   }
@@ -555,6 +572,7 @@ $("#startEmergencyLoopButton").addEventListener("click", startEmergencyLoop);
 $("#stopEmergencyLoopButton").addEventListener("click", stopEmergencyLoop);
 
 bindTabs();
+setFullActionState("current");
 setActiveQueue("전체 순차", clipsFromIds(fullSequenceIds), "manual");
 renderLibrary();
 renderNeededItems();
