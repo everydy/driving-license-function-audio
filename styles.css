@@ -383,7 +383,8 @@ h3 {
   font-weight: 800;
 }
 
-.full-action-button.is-selected {
+.full-action-button.is-selected,
+.emergency-action-button.is-selected {
   background: var(--color-action);
   border-color: var(--color-action);
   color: var(--color-on-action);
@@ -425,7 +426,8 @@ h3 {
   background: var(--color-surface-raised);
 }
 
-.full-action-button.is-selected:hover {
+.full-action-button.is-selected:hover,
+.emergency-action-button.is-selected:hover {
   background: var(--color-action-hover);
   border-color: var(--color-action-hover);
   box-shadow:

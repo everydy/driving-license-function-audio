@@ -146,8 +146,8 @@
               <span>최대 초</span>
               <input id="emergencyMaxSeconds" type="number" min="0" step="1" value="60">
             </label>
-            <button class="primary-action" id="startEmergencyLoopButton" type="button">랜덤 반복 시작</button>
-            <button class="secondary-action" id="stopEmergencyLoopButton" type="button">반복 중지</button>
+            <button class="primary-action emergency-action-button" id="startEmergencyLoopButton" type="button" data-emergency-action="start" aria-pressed="false">랜덤 반복 시작</button>
+            <button class="secondary-action emergency-action-button is-selected" id="stopEmergencyLoopButton" type="button" data-emergency-action="stop" aria-pressed="true">반복 중지</button>
           </div>
           <div class="emergency-stage">
             <div class="signal-light" id="signalLight" aria-hidden="true"></div>

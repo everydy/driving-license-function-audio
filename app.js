@@ -79,6 +79,7 @@ let emergencyStart = 0;
 let activeHeroAction = "";
 let activeFullAction = "current";
 let activePartAction = "";
+let activeEmergencyAction = "stop";
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -106,6 +107,7 @@ const playPausePauseIcon = $("#playPausePauseIcon");
 const heroActionButtons = [...document.querySelectorAll(".hero-action-button")];
 const fullActionButtons = [...document.querySelectorAll(".full-action-button")];
 const partActionButtons = [...document.querySelectorAll(".part-action-button")];
+const emergencyActionButtons = [...document.querySelectorAll(".emergency-action-button")];
 
 function setHeroActionState(action) {
   activeHeroAction = action;
@@ -132,6 +134,15 @@ function setPartActionState(action) {
     button.classList.toggle("is-selected", isSelected);
     button.setAttribute("aria-pressed", String(isSelected));
     button.closest(".part-mode-card")?.classList.toggle("is-selected", isSelected);
+  });
+}
+
+function setEmergencyActionState(action) {
+  activeEmergencyAction = action;
+  emergencyActionButtons.forEach((button) => {
+    const isSelected = button.dataset.emergencyAction === activeEmergencyAction;
+    button.classList.toggle("is-selected", isSelected);
+    button.setAttribute("aria-pressed", String(isSelected));
   });
 }
 
@@ -705,12 +716,14 @@ function scheduleNextEmergency() {
 
 function startEmergencyLoop() {
   emergencyLoopActive = true;
+  setEmergencyActionState("start");
   scheduleNextEmergency();
   updateQueueStatus();
 }
 
 function stopEmergencyLoop() {
   emergencyLoopActive = false;
+  setEmergencyActionState("stop");
   window.clearTimeout(emergencyTimer);
   emergencyTimer = null;
   resetEmergencyResponse();
