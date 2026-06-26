@@ -78,6 +78,7 @@ let emergencyLive = false;
 let emergencyStart = 0;
 let activeHeroAction = "";
 let activeFullAction = "current";
+let activePartAction = "";
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -104,6 +105,7 @@ const playPausePlayIcon = $("#playPausePlayIcon");
 const playPausePauseIcon = $("#playPausePauseIcon");
 const heroActionButtons = [...document.querySelectorAll(".hero-action-button")];
 const fullActionButtons = [...document.querySelectorAll(".full-action-button")];
+const partActionButtons = [...document.querySelectorAll(".part-action-button")];
 
 function setHeroActionState(action) {
   activeHeroAction = action;
@@ -120,6 +122,16 @@ function setFullActionState(action) {
     const isSelected = button.dataset.fullAction === activeFullAction;
     button.classList.toggle("is-selected", isSelected);
     button.setAttribute("aria-pressed", String(isSelected));
+  });
+}
+
+function setPartActionState(action) {
+  activePartAction = action;
+  partActionButtons.forEach((button) => {
+    const isSelected = button.dataset.partAction === activePartAction;
+    button.classList.toggle("is-selected", isSelected);
+    button.setAttribute("aria-pressed", String(isSelected));
+    button.closest(".part-mode-card")?.classList.toggle("is-selected", isSelected);
   });
 }
 
@@ -480,7 +492,10 @@ function renderQueueList(container, queue, heading, currentIndex) {
       activeQueue = queue;
       activeQueueIndex = index;
       activeQueueMode = "manual";
-      if (heading === "전체 순차") setFullActionState("current");
+      if (heading === "전체 순차") {
+        setFullActionState("current");
+        setPartActionState("");
+      }
       renderQueues();
       playActiveQueueClip();
     });
@@ -578,6 +593,7 @@ function moveActiveQueueBlock(direction) {
 
 function startFullSequence() {
   setFullActionState("auto");
+  setPartActionState("");
   setActiveQueue("전체 순차", clipsFromIds(fullSequenceIds), "auto");
   infiniteControlMode = false;
   playActiveQueueClip();
@@ -585,6 +601,7 @@ function startFullSequence() {
 
 function playFullCurrent() {
   setFullActionState("current");
+  setPartActionState("");
   if (activeQueueName !== "전체 순차") {
     setActiveQueue("전체 순차", clipsFromIds(fullSequenceIds), "manual");
   }
@@ -592,6 +609,7 @@ function playFullCurrent() {
 }
 
 function startRandomInfiniteControls() {
+  setPartActionState("random");
   const [task] = sampleTwoControlTasks();
   setActiveQueue(`무한랜덤: ${task.title}`, clipsFromIds(task.clips), "auto");
   infiniteControlMode = true;
@@ -599,6 +617,7 @@ function startRandomInfiniteControls() {
 }
 
 function startActualExamTwoControls() {
+  setPartActionState("exam");
   const tasks = sampleTwoControlTasks();
   const clips = clipsFromIds(["control-intro", ...tasks.flatMap((task) => task.clips)]);
   setActiveQueue(`실제 시험: ${tasks.map((task) => task.title).join(", ")}`, clips, "auto");
@@ -607,6 +626,7 @@ function startActualExamTwoControls() {
 }
 
 function startAllControlsSequential() {
+  setPartActionState("sequence");
   const tasks = materializedControlTasks();
   const clips = clipsFromIds(tasks.flatMap((task) => task.clips));
   setActiveQueue(`순차재생: ${tasks.map((task) => task.title).join(" → ")}`, clips, "auto");
