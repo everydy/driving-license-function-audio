@@ -529,6 +529,17 @@ h3 {
   margin-bottom: var(--space-7);
 }
 
+.section-title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.section-title-row h2 {
+  margin: 0;
+}
+
 #emergencyPanel .section-heading {
   align-items: center;
   flex-direction: row;

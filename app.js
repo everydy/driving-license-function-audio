@@ -86,6 +86,7 @@ const currentClipTitle = $("#currentClipTitle");
 const currentClipText = $("#currentClipText");
 const currentClipFile = $("#currentClipFile");
 const fullQueueList = $("#fullQueueList");
+const fullQueueCount = $("#fullQueueCount");
 const partQueueList = $("#partQueueList");
 const partModeLabel = $("#partModeLabel");
 const emergencyTitle = $("#emergencyTitle");
@@ -372,12 +373,15 @@ function bindQueueToggle(button, key) {
   });
 }
 
-function renderQueueList(container, queue, heading, currentIndex) {
+function renderQueueList(container, queue, heading, currentIndex, options = {}) {
   container.innerHTML = "";
-  const header = document.createElement("div");
-  header.className = "queue-header";
-  header.innerHTML = `<strong>${heading}</strong><span>${queue.length}개 음성</span>`;
-  container.appendChild(header);
+  const showHeader = options.showHeader !== false;
+  if (showHeader) {
+    const header = document.createElement("div");
+    header.className = "queue-header";
+    header.innerHTML = `<strong>${heading}</strong><span>${queue.length}개 음성</span>`;
+    container.appendChild(header);
+  }
 
   const isActiveQueue = heading === activeQueueName;
   const currentClipInQueue = isActiveQueue ? queue[currentIndex] : null;
@@ -492,7 +496,8 @@ function renderQueueList(container, queue, heading, currentIndex) {
 
 function renderQueues() {
   const fullQueue = clipsFromIds(fullSequenceIds);
-  renderQueueList(fullQueueList, fullQueue, "전체 순차", activeQueueIndex);
+  fullQueueCount.textContent = `${fullQueue.length}건`;
+  renderQueueList(fullQueueList, fullQueue, "전체 순차", activeQueueIndex, { showHeader: false });
   if (activeQueueName === "전체 순차") {
     partQueueList.innerHTML = `<div class="empty-state">파트별 재생 모드를 선택하면 여기에 재생 큐가 표시됩니다.</div>`;
     partModeLabel.textContent = "파트별 큐 없음";
