@@ -442,7 +442,7 @@ function playFullCurrent() {
 
 function startRandomInfiniteControls() {
   const [task] = sampleTwoControlTasks();
-  setActiveQueue(`무한 랜덤: ${task.title}`, clipsFromIds(task.clips), "auto");
+  setActiveQueue(`무한랜덤: ${task.title}`, clipsFromIds(task.clips), "auto");
   infiniteControlMode = true;
   playActiveQueueClip();
 }
@@ -450,7 +450,7 @@ function startRandomInfiniteControls() {
 function startActualExamTwoControls() {
   const tasks = sampleTwoControlTasks();
   const clips = clipsFromIds(["control-intro", ...tasks.flatMap((task) => task.clips)]);
-  setActiveQueue(`실제시험 2개: ${tasks.map((task) => task.title).join(", ")}`, clips, "auto");
+  setActiveQueue(`실제 시험: ${tasks.map((task) => task.title).join(", ")}`, clips, "auto");
   infiniteControlMode = false;
   playActiveQueueClip();
 }
@@ -458,7 +458,7 @@ function startActualExamTwoControls() {
 function startAllControlsSequential() {
   const tasks = materializedControlTasks();
   const clips = clipsFromIds(tasks.flatMap((task) => task.clips));
-  setActiveQueue(`4종 순차: ${tasks.map((task) => task.title).join(" → ")}`, clips, "auto");
+  setActiveQueue(`순차재생: ${tasks.map((task) => task.title).join(" → ")}`, clips, "auto");
   infiniteControlMode = false;
   playActiveQueueClip();
 }
