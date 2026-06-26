@@ -58,11 +58,6 @@ const controlTaskTemplates = [
   { id: "wiper", title: "와이퍼", clips: ["wiper-on", "wiper-off"] }
 ];
 
-const neededItems = [
-  { title: "기어 N/R 음성", detail: "현재 앱은 확정된 D(드라이브)만 사용합니다. N/R을 랜덤에 넣으려면 최종 MP3가 필요합니다." },
-  { title: "기능조작 정답 판정", detail: "지금은 음성 연습과 수동 성공음 중심입니다. 실제 조작 입력 판정은 아직 없습니다." }
-];
-
 let activeAudio = null;
 let activeQueue = [];
 let activeQueueIndex = 0;
@@ -93,8 +88,6 @@ const currentClipFile = $("#currentClipFile");
 const fullQueueList = $("#fullQueueList");
 const partQueueList = $("#partQueueList");
 const partModeLabel = $("#partModeLabel");
-const libraryList = $("#libraryList");
-const neededList = $("#neededList");
 const emergencyTitle = $("#emergencyTitle");
 const emergencyText = $("#emergencyText");
 const emergencyLoopState = $("#emergencyLoopState");
@@ -645,34 +638,6 @@ function startAllControlsSequential() {
   playActiveQueueClip();
 }
 
-function renderLibrary() {
-  libraryList.innerHTML = "";
-  audioClips.forEach((clip, index) => {
-    const item = document.createElement("button");
-    item.type = "button";
-    item.className = "clip-button";
-    const setLabel = clip.middleNumber
-      ? `${displayNumber(clip.majorNumber)} ${clip.majorLabel} · ${displayNumber(clip.middleNumber)} ${clip.middleLabel}${clip.minorNumber ? ` · ${displayNumber(clip.minorNumber)} ${clip.minorLabel}` : ""}`
-      : `${displayNumber(clip.majorNumber) || index + 1} ${clip.majorLabel || clip.group}`;
-    item.innerHTML = `
-      <span class="clip-index">${index + 1}</span>
-      <span><strong>${clip.title}</strong><span>${setLabel} · ${clip.file.replace("audio/", "")}</span></span>
-    `;
-    item.addEventListener("click", () => playStandaloneClip(clip.id));
-    libraryList.appendChild(item);
-  });
-}
-
-function renderNeededItems() {
-  neededList.innerHTML = "";
-  neededItems.forEach((item) => {
-    const row = document.createElement("article");
-    row.className = "needed-item";
-    row.innerHTML = `<strong>${item.title}</strong><span>${item.detail}</span>`;
-    neededList.appendChild(row);
-  });
-}
-
 function resetEmergencyResponse() {
   emergencyLive = false;
   emergencyStart = 0;
@@ -765,8 +730,6 @@ $("#stopEmergencyLoopButton").addEventListener("click", stopEmergencyLoop);
 bindTabs();
 setFullActionState("current");
 setActiveQueue("전체 순차", clipsFromIds(fullSequenceIds), "manual");
-renderLibrary();
-renderNeededItems();
 resetEmergencyResponse();
 emergencyTitle.textContent = "대기";
 emergencyText.textContent = "기본값은 0~60초 랜덤 반복입니다.";
