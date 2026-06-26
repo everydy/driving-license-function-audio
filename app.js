@@ -177,6 +177,11 @@ function playHeroCurrent() {
   playActiveQueueClip();
 }
 
+function playHeroPrevious() {
+  setHeroActionState("previous");
+  playPreviousInActiveQueue();
+}
+
 function playHeroNext() {
   setHeroActionState("next");
   playNextInActiveQueue();
@@ -396,6 +401,15 @@ function playNextInActiveQueue() {
   playActiveQueueClip();
 }
 
+function playPreviousInActiveQueue() {
+  if (activeQueueIndex > 0) {
+    activeQueueIndex -= 1;
+  }
+  activeQueueMode = "manual";
+  renderQueues();
+  playActiveQueueClip();
+}
+
 function startFullSequence() {
   setActiveQueue("전체 순차", clipsFromIds(fullSequenceIds), "auto");
   infiniteControlMode = false;
@@ -526,6 +540,7 @@ function bindTabs() {
 }
 
 $("#playCurrentButton").addEventListener("click", playHeroCurrent);
+$("#previousClipButton").addEventListener("click", playHeroPrevious);
 $("#nextClipButton").addEventListener("click", playHeroNext);
 $("#stopPlaybackButton").addEventListener("click", stopHeroPlayback);
 $("#startFullSequenceButton").addEventListener("click", startFullSequence);
