@@ -566,8 +566,6 @@ $("#successChimeButton").addEventListener("click", playHeroSuccessChime);
 $("#randomInfiniteButton").addEventListener("click", startRandomInfiniteControls);
 $("#actualTwoButton").addEventListener("click", startActualExamTwoControls);
 $("#allControlsButton").addEventListener("click", startAllControlsSequential);
-$("#partStopButton").addEventListener("click", stopQueuePlayback);
-$("#partSuccessButton").addEventListener("click", playSuccessChime);
 $("#startEmergencyLoopButton").addEventListener("click", startEmergencyLoop);
 $("#stopEmergencyLoopButton").addEventListener("click", stopEmergencyLoop);
 
