@@ -460,6 +460,7 @@ h3 {
 .warning-action:focus-visible,
 .icon-action:focus-visible,
 .tab-button:focus-visible,
+.queue-toggle:focus-visible,
 .clip-button:focus-visible,
 .queue-item:focus-visible,
 .mini-action:focus-visible,
@@ -809,6 +810,17 @@ h3 {
   gap: var(--space-2);
 }
 
+.queue-toggle {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+}
+
 .queue-major-heading span,
 .queue-middle-heading span,
 .queue-minor-heading span {
@@ -1083,5 +1095,54 @@ h3 {
   .queue-minor-block {
     margin-left: var(--space-2);
     padding-left: var(--space-3);
+  }
+
+  .queue-major-block,
+  .queue-middle-block,
+  .queue-minor-block {
+    gap: var(--space-3);
+  }
+
+  .queue-major-block {
+    padding: var(--space-3);
+  }
+
+  .queue-toggle {
+    position: relative;
+    min-height: 38px;
+    padding-right: var(--space-8);
+    border-radius: var(--radius-sm);
+  }
+
+  .queue-toggle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: var(--space-2);
+    width: 9px;
+    height: 9px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-64%) rotate(45deg);
+    opacity: 0.74;
+    transition: transform var(--motion-fast);
+  }
+
+  .is-expanded > .queue-toggle::after {
+    transform: translateY(-38%) rotate(225deg);
+  }
+
+  .queue-major-block:not(.is-expanded) > .queue-major-body,
+  .queue-middle-block:not(.is-expanded) > .queue-middle-body,
+  .queue-minor-block:not(.is-expanded) > .queue-minor-body {
+    display: none;
+  }
+
+  .queue-major-block.is-expanded {
+    background: rgba(242, 247, 243, 0.88);
+  }
+
+  .queue-major-block:not(.is-expanded) {
+    background: rgba(255, 253, 248, 0.78);
   }
 }

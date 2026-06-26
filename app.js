@@ -71,6 +71,7 @@ let activeQueueMode = "manual";
 let infiniteControlMode = false;
 let currentClip = audioClips[0];
 let queueDelayTimer = null;
+const queueExpandedKeys = new Set();
 let emergencyTimer = null;
 let emergencyLoopActive = false;
 let emergencyLive = false;
@@ -348,12 +349,44 @@ function currentQueuePanel() {
   return activeQueueName === "전체 순차" ? fullQueueList : partQueueList;
 }
 
+function queueBlockId(key) {
+  return `queueBlock-${key.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
+}
+
+function shouldExpandQueueBlock(key, activePath, heading) {
+  if (activePath.has(key)) return true;
+  if (activeQueueMode === "auto" && heading === activeQueueName) return false;
+  return queueExpandedKeys.has(key);
+}
+
+function bindQueueToggle(button, key) {
+  button.addEventListener("click", () => {
+    const block = button.closest(".queue-major-block, .queue-middle-block, .queue-minor-block");
+    const willExpand = !block.classList.contains("is-expanded");
+    if (willExpand) {
+      queueExpandedKeys.add(key);
+    } else {
+      queueExpandedKeys.delete(key);
+    }
+    block.classList.toggle("is-expanded", willExpand);
+    button.setAttribute("aria-expanded", String(willExpand));
+  });
+}
+
 function renderQueueList(container, queue, heading, currentIndex) {
   container.innerHTML = "";
   const header = document.createElement("div");
   header.className = "queue-header";
   header.innerHTML = `<strong>${heading}</strong><span>${queue.length}개 음성</span>`;
   container.appendChild(header);
+
+  const isActiveQueue = heading === activeQueueName;
+  const currentClipInQueue = isActiveQueue ? queue[currentIndex] : null;
+  const containerKey = container.id || heading;
+  const activePath = new Set();
+  if (currentClipInQueue?.majorNumber) activePath.add(`major:${containerKey}:${heading}:${currentClipInQueue.majorNumber}`);
+  if (currentClipInQueue?.middleNumber) activePath.add(`middle:${containerKey}:${heading}:${currentClipInQueue.middleNumber}`);
+  if (currentClipInQueue?.minorNumber) activePath.add(`minor:${containerKey}:${heading}:${currentClipInQueue.minorNumber}`);
 
   let currentMajorKey = "";
   let currentMiddleKey = "";
@@ -366,17 +399,21 @@ function renderQueueList(container, queue, heading, currentIndex) {
   queue.forEach((clip, index) => {
     const majorKey = clip.majorNumber || clip.group || "기타";
     if (majorKey !== currentMajorKey) {
+      const collapseKey = `major:${containerKey}:${heading}:${majorKey}`;
+      const bodyId = queueBlockId(collapseKey);
+      const isExpanded = shouldExpandQueueBlock(collapseKey, activePath, heading);
       const majorBlock = document.createElement("section");
-      majorBlock.className = "queue-major-block";
+      majorBlock.className = `queue-major-block${isExpanded ? " is-expanded" : ""}`;
       majorBlock.innerHTML = `
-        <div class="queue-major-heading">
+        <button class="queue-major-heading queue-toggle" type="button" aria-expanded="${isExpanded}" aria-controls="${bodyId}">
           <span>${displayNumber(clip.majorNumber)}</span>
           <strong>${clip.majorLabel || clip.group}</strong>
-        </div>
-        <div class="queue-major-body"></div>
+        </button>
+        <div class="queue-major-body" id="${bodyId}"></div>
       `;
       container.appendChild(majorBlock);
       majorBody = majorBlock.querySelector(".queue-major-body");
+      bindQueueToggle(majorBlock.querySelector(".queue-toggle"), collapseKey);
       currentMajorKey = majorKey;
       currentMiddleKey = "";
       currentMinorKey = "";
@@ -386,17 +423,21 @@ function renderQueueList(container, queue, heading, currentIndex) {
 
     const middleKey = clip.middleNumber || "";
     if (middleKey && middleKey !== currentMiddleKey) {
+      const collapseKey = `middle:${containerKey}:${heading}:${middleKey}`;
+      const bodyId = queueBlockId(collapseKey);
+      const isExpanded = shouldExpandQueueBlock(collapseKey, activePath, heading);
       const middleBlock = document.createElement("section");
-      middleBlock.className = "queue-middle-block";
+      middleBlock.className = `queue-middle-block${isExpanded ? " is-expanded" : ""}`;
       middleBlock.innerHTML = `
-        <div class="queue-middle-heading">
+        <button class="queue-middle-heading queue-toggle" type="button" aria-expanded="${isExpanded}" aria-controls="${bodyId}">
           <span>${displayNumber(clip.middleNumber)}</span>
           <strong>${clip.middleLabel}</strong>
-        </div>
-        <div class="queue-middle-body"></div>
+        </button>
+        <div class="queue-middle-body" id="${bodyId}"></div>
       `;
       majorBody.appendChild(middleBlock);
       middleBody = middleBlock.querySelector(".queue-middle-body");
+      bindQueueToggle(middleBlock.querySelector(".queue-toggle"), collapseKey);
       currentMiddleKey = middleKey;
       currentMinorKey = "";
       minorBody = null;
@@ -404,17 +445,21 @@ function renderQueueList(container, queue, heading, currentIndex) {
 
     const minorKey = clip.minorNumber || "";
     if (minorKey && minorKey !== currentMinorKey) {
+      const collapseKey = `minor:${containerKey}:${heading}:${minorKey}`;
+      const bodyId = queueBlockId(collapseKey);
+      const isExpanded = shouldExpandQueueBlock(collapseKey, activePath, heading);
       const minorBlock = document.createElement("section");
-      minorBlock.className = "queue-minor-block";
+      minorBlock.className = `queue-minor-block${isExpanded ? " is-expanded" : ""}`;
       minorBlock.innerHTML = `
-        <div class="queue-minor-heading">
+        <button class="queue-minor-heading queue-toggle" type="button" aria-expanded="${isExpanded}" aria-controls="${bodyId}">
           <span>${displayNumber(clip.minorNumber)}</span>
           <strong>${clip.minorLabel}</strong>
-        </div>
-        <div class="queue-minor-body"></div>
+        </button>
+        <div class="queue-minor-body" id="${bodyId}"></div>
       `;
       (middleBody || majorBody).appendChild(minorBlock);
       minorBody = minorBlock.querySelector(".queue-minor-body");
+      bindQueueToggle(minorBlock.querySelector(".queue-toggle"), collapseKey);
       currentMinorKey = minorKey;
     }
 
