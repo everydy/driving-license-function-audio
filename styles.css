@@ -747,6 +747,11 @@ h3 {
   font-size: var(--font-size-xs);
 }
 
+.mobile-label,
+.part-mode-summary {
+  display: none;
+}
+
 .mode-card h3 {
   margin: 0;
   font-size: var(--font-size-lg);
@@ -1047,9 +1052,73 @@ h3 {
   .clip-grid,
   .practice-layout,
   .control-task-grid,
-  .mode-card-grid,
   .timer-controls {
     grid-template-columns: 1fr;
+  }
+
+  .mode-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #partsPanel .mode-card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-1);
+    margin-bottom: var(--space-3);
+  }
+
+  #partsPanel .part-mode-card,
+  #partsPanel .part-mode-card.is-selected {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  #partsPanel .part-mode-card h3,
+  #partsPanel .part-mode-card p,
+  #partsPanel .desktop-label {
+    display: none;
+  }
+
+  #partsPanel .mobile-label {
+    display: inline;
+  }
+
+  #partsPanel .part-action-button {
+    width: 100%;
+    min-height: 50px;
+    padding: 0 var(--space-1);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+  }
+
+  #partsPanel .part-action-button.is-selected::after {
+    content: "";
+  }
+
+  .part-mode-summary {
+    display: grid;
+    gap: var(--space-2);
+    margin-bottom: var(--space-5);
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: rgba(242, 247, 243, 0.68);
+  }
+
+  .part-mode-summary p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.38;
+  }
+
+  .part-mode-summary strong {
+    display: inline-block;
+    min-width: 58px;
+    color: var(--color-text);
+    font-weight: 900;
   }
 
   .mode-tabs {

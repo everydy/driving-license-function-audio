@@ -100,18 +100,33 @@
             <article class="mode-card part-mode-card">
               <h3>무한랜덤</h3>
               <p>4종류 중 하나를 계속 랜덤으로 뽑아서 멈출 때까지 반복 재생합니다.</p>
-              <button class="primary-action part-action-button" id="randomInfiniteButton" type="button" data-part-action="random" aria-pressed="false">무한랜덤 시작</button>
+              <button class="primary-action part-action-button" id="randomInfiniteButton" type="button" data-part-action="random" aria-pressed="false">
+                <span class="desktop-label">무한랜덤 시작</span>
+                <span class="mobile-label">무한랜덤</span>
+              </button>
             </article>
             <article class="mode-card part-mode-card">
               <h3>실제 시험</h3>
               <p>공통 안내 뒤 4종류 중 2개를 랜덤으로 뽑아 한 세트만 재생합니다.</p>
-              <button class="primary-action part-action-button" id="actualTwoButton" type="button" data-part-action="exam" aria-pressed="false">실제 시험 재생</button>
+              <button class="primary-action part-action-button" id="actualTwoButton" type="button" data-part-action="exam" aria-pressed="false">
+                <span class="desktop-label">실제 시험 재생</span>
+                <span class="mobile-label">실제시험</span>
+              </button>
             </article>
             <article class="mode-card part-mode-card">
               <h3>순차재생</h3>
               <p>기어, 전조등, 방향지시등, 와이퍼를 순서대로 재생합니다. 방향지시등은 좌/우 중 하나를 뽑습니다.</p>
-              <button class="primary-action part-action-button" id="allControlsButton" type="button" data-part-action="sequence" aria-pressed="false">순차재생 시작</button>
+              <button class="primary-action part-action-button" id="allControlsButton" type="button" data-part-action="sequence" aria-pressed="false">
+                <span class="desktop-label">순차재생 시작</span>
+                <span class="mobile-label">순차재생</span>
+              </button>
             </article>
+          </div>
+
+          <div class="part-mode-summary" aria-label="파트별 재생 모드 설명">
+            <p><strong>무한랜덤</strong>4종류 중 하나를 계속 반복합니다.</p>
+            <p><strong>실제시험</strong>공통 안내 뒤 2개 과제만 재생합니다.</p>
+            <p><strong>순차재생</strong>기어, 전조등, 방향지시등, 와이퍼 순서입니다.</p>
           </div>
 
           <div class="queue-list" id="partQueueList"></div>
