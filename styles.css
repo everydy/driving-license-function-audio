@@ -156,6 +156,52 @@ button {
   margin-bottom: var(--space-7);
 }
 
+.top-status-stack {
+  display: grid;
+  justify-items: end;
+  gap: var(--space-2);
+}
+
+.queue-status-strip {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  max-width: 520px;
+}
+
+.queue-status-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  border: 1px solid rgba(19, 111, 99, 0.26);
+  border-radius: var(--radius-pill);
+  background: rgba(227, 238, 232, 0.78);
+  color: var(--color-action);
+  padding: 0 var(--space-3);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.queue-status-chip.is-muted {
+  border-color: var(--color-border);
+  background: rgba(255, 253, 248, 0.82);
+  color: var(--color-text-muted);
+}
+
+.queue-status-chip.is-live {
+  border-color: rgba(182, 106, 0, 0.36);
+  background: var(--ref-amber-100);
+  color: var(--color-warning-strong);
+}
+
+.queue-status-chip.is-alert {
+  border-color: rgba(184, 58, 58, 0.34);
+  background: var(--ref-red-100);
+  color: var(--color-danger-strong);
+}
+
 .eyebrow,
 .mode-label {
   margin: 0 0 var(--space-2);
@@ -927,6 +973,20 @@ h3 {
   .button-row {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .top-status-stack,
+  .queue-status-strip {
+    align-items: stretch;
+    justify-items: stretch;
+    justify-content: stretch;
+    width: 100%;
+  }
+
+  .queue-status-chip {
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
   }
 
   .hero-copy h2 {

@@ -16,9 +16,15 @@
           <h1>LiCue · 2종 장내기능시험 음성도우미</h1>
           <p class="brand-subtitle">시험장 실제 안내음성 흐름을 따라 듣는 큐 시스템</p>
         </div>
-        <div class="status-panel" aria-live="polite">
-          <span class="status-dot" id="audioStatusDot"></span>
-          <span id="audioStatus">대기</span>
+        <div class="top-status-stack">
+          <div class="status-panel" aria-live="polite">
+            <span class="status-dot" id="audioStatusDot"></span>
+            <span id="audioStatus">대기</span>
+          </div>
+          <div class="queue-status-strip" aria-live="polite" aria-label="재생 큐 상태">
+            <span class="queue-status-chip" id="primaryQueueStatus">주 재생: 전체 순차 · 선택 음성</span>
+            <span class="queue-status-chip is-muted" id="emergencyQueueStatus">돌발 반복: 꺼짐</span>
+          </div>
         </div>
       </header>
 

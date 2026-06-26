@@ -82,6 +82,8 @@ const $ = (selector) => document.querySelector(selector);
 
 const statusDot = $("#audioStatusDot");
 const audioStatus = $("#audioStatus");
+const primaryQueueStatus = $("#primaryQueueStatus");
+const emergencyQueueStatus = $("#emergencyQueueStatus");
 const currentClipTitle = $("#currentClipTitle");
 const currentClipText = $("#currentClipText");
 const currentClipFile = $("#currentClipFile");
@@ -122,6 +124,27 @@ function setAudioStatus(text, ready = false) {
   statusDot.classList.toggle("is-ready", ready);
 }
 
+function primaryQueueLabel() {
+  if (activeQueueName === "전체 순차") {
+    const mode = activeQueueMode === "auto" || activeFullAction === "auto" ? "자동 재생" : "선택 음성";
+    return `주 재생: 전체 순차 · ${mode}`;
+  }
+  return `주 재생: 파트별 · ${activeQueueName}`;
+}
+
+function emergencyQueueLabel() {
+  if (!emergencyLoopActive) return "돌발 반복: 꺼짐";
+  return emergencyLive ? "돌발 반복: 발생 중" : "돌발 반복: 켜짐";
+}
+
+function updateQueueStatus() {
+  primaryQueueStatus.textContent = primaryQueueLabel();
+  emergencyQueueStatus.textContent = emergencyQueueLabel();
+  emergencyQueueStatus.classList.toggle("is-live", emergencyLoopActive);
+  emergencyQueueStatus.classList.toggle("is-alert", emergencyLive);
+  emergencyQueueStatus.classList.toggle("is-muted", !emergencyLoopActive);
+}
+
 function setCurrentClip(clip) {
   currentClip = clip;
   currentClipTitle.textContent = clip.title;
@@ -147,6 +170,7 @@ function stopQueuePlayback() {
   clearQueueDelay();
   stopAudio();
   renderQueues();
+  updateQueueStatus();
   setAudioStatus("재생 중지", true);
 }
 
@@ -239,6 +263,7 @@ function setActiveQueue(name, clips, mode = "manual") {
   activeQueueIndex = 0;
   activeQueueMode = mode;
   if (activeQueue[0]) setCurrentClip(activeQueue[0]);
+  updateQueueStatus();
   renderQueues();
 }
 
@@ -351,6 +376,7 @@ function renderQueues() {
   }
   renderQueueList(partQueueList, activeQueue, activeQueueName, activeQueueIndex);
   partModeLabel.textContent = activeQueueName;
+  updateQueueStatus();
 }
 
 function playActiveQueueClip() {
@@ -358,6 +384,7 @@ function playActiveQueueClip() {
   if (!clip) return;
   playAudioClip(clip, handleQueueEnded).catch(() => {});
   renderQueues();
+  updateQueueStatus();
 }
 
 function handleQueueEnded() {
@@ -377,6 +404,7 @@ function scheduleCommandDelay(clip) {
     ? `${clip.delaySeconds}초 조작 대기 후 성공음`
     : `${clip.delaySeconds}초 조작 대기`;
   setAudioStatus(waitLabel, true);
+  updateQueueStatus();
   queueDelayTimer = window.setTimeout(() => {
     if (activeQueueMode !== "auto") return;
     if (shouldPlaySuccess) {
@@ -404,6 +432,7 @@ function advanceQueueAfterClip() {
 
   activeQueueMode = "manual";
   renderQueues();
+  updateQueueStatus();
   setAudioStatus(`${activeQueueName} 완료`, true);
 }
 
@@ -413,6 +442,7 @@ function playNextInActiveQueue() {
   }
   activeQueueMode = "manual";
   renderQueues();
+  updateQueueStatus();
   playActiveQueueClip();
 }
 
@@ -422,6 +452,7 @@ function playPreviousInActiveQueue() {
   }
   activeQueueMode = "manual";
   renderQueues();
+  updateQueueStatus();
   playActiveQueueClip();
 }
 
@@ -495,6 +526,7 @@ function resetEmergencyResponse() {
   emergencyLive = false;
   emergencyStart = 0;
   signalLight.classList.remove("is-live");
+  updateQueueStatus();
 }
 
 function getEmergencyDelayMs() {
@@ -515,6 +547,7 @@ function scheduleNextEmergency() {
   emergencyTitle.textContent = "대기 중";
   emergencyText.textContent = `${min}~${max}초 사이 무작위 시점에 돌발 음성이 나옵니다.`;
   emergencyLoopState.textContent = "반복 중";
+  updateQueueStatus();
 
   emergencyTimer = window.setTimeout(() => {
     if (!emergencyLoopActive) return;
@@ -523,6 +556,7 @@ function scheduleNextEmergency() {
     signalLight.classList.add("is-live");
     emergencyTitle.textContent = "돌발 발생";
     emergencyText.textContent = "돌발 음성이 재생 중입니다.";
+    updateQueueStatus();
     playAudioClip(clipMap.get("emergency"), () => {
       if (emergencyLoopActive) scheduleNextEmergency();
     }).catch(() => {});
@@ -532,6 +566,7 @@ function scheduleNextEmergency() {
 function startEmergencyLoop() {
   emergencyLoopActive = true;
   scheduleNextEmergency();
+  updateQueueStatus();
 }
 
 function stopEmergencyLoop() {
@@ -542,6 +577,7 @@ function stopEmergencyLoop() {
   emergencyTitle.textContent = "중지됨";
   emergencyText.textContent = "랜덤 반복 시작을 누르면 다시 대기합니다.";
   emergencyLoopState.textContent = "중지";
+  updateQueueStatus();
   setAudioStatus("돌발 반복 중지", true);
 }
 
@@ -578,3 +614,4 @@ resetEmergencyResponse();
 emergencyTitle.textContent = "대기";
 emergencyText.textContent = "기본값은 0~60초 랜덤 반복입니다.";
 emergencyLoopState.textContent = "중지";
+updateQueueStatus();
