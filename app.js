@@ -251,18 +251,6 @@ function resumeActiveAudio() {
     .catch(() => setAudioStatus("재생 차단 · 다시 눌러주세요", false));
 }
 
-function playStandaloneClip(id) {
-  activeQueueMode = "manual";
-  infiniteControlMode = false;
-  clearQueueDelay();
-  const clip = clipMap.get(id);
-  if (clip) playAudioClip(clip).catch(() => {});
-}
-
-function playSuccessChime() {
-  playStandaloneClip("success-chime");
-}
-
 function playHeroCurrent() {
   setHeroActionState("playPause");
   if (activeQueueName === "전체 순차") setFullActionState("current");
@@ -290,11 +278,6 @@ function playHeroNext() {
 function stopHeroPlayback() {
   setHeroActionState("stop");
   stopQueuePlayback();
-}
-
-function playHeroSuccessChime() {
-  setHeroActionState("success");
-  playSuccessChime();
 }
 
 function clipsFromIds(ids) {
@@ -720,7 +703,6 @@ $("#nextClipButton").addEventListener("click", playHeroNext);
 $("#stopPlaybackButton").addEventListener("click", stopHeroPlayback);
 $("#startFullSequenceButton").addEventListener("click", startFullSequence);
 $("#fullCurrentButton").addEventListener("click", playFullCurrent);
-$("#successChimeButton").addEventListener("click", playHeroSuccessChime);
 $("#randomInfiniteButton").addEventListener("click", startRandomInfiniteControls);
 $("#actualTwoButton").addEventListener("click", startActualExamTwoControls);
 $("#allControlsButton").addEventListener("click", startAllControlsSequential);
