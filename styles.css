@@ -330,24 +330,11 @@ h3 {
 
 .hero-action-button.is-action-active {
   border-color: rgba(255, 255, 255, 0.82);
-  background: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.2);
   color: var(--color-hero-text);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.18),
-    0 0 0 4px rgba(255, 255, 255, 0.12),
-    0 12px 24px rgba(23, 32, 29, 0.22);
-}
-
-.hero-action-button.is-action-active::after {
-  content: "";
-  position: absolute;
-  left: var(--space-4);
-  right: var(--space-4);
-  bottom: 5px;
-  height: 3px;
-  border-radius: var(--radius-pill);
-  background: currentColor;
-  opacity: 0.86;
+    0 0 0 3px rgba(255, 255, 255, 0.1);
 }
 
 .primary-action:hover,
@@ -379,7 +366,7 @@ h3 {
 }
 
 .hero-band .secondary-action.is-action-active:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .primary-action:active,
