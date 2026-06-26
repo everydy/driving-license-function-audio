@@ -37,31 +37,31 @@
             <small id="currentClipFile">audio/1-pre-exam-notice.mp3</small>
           </div>
           <div class="hero-actions">
-            <button class="secondary-action hero-action-button" id="playCurrentButton" type="button" data-action-state="current" aria-pressed="false">
-              <svg class="button-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <button class="secondary-action hero-action-button" id="playCurrentButton" type="button" data-action-state="playPause" aria-label="재생" title="재생" aria-pressed="false">
+              <svg class="button-icon play-icon" id="playPausePlayIcon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M5 5a2 2 0 0 1 3-1.7l11 7a2 2 0 0 1 0 3.4l-11 7A2 2 0 0 1 5 19z"></path>
               </svg>
-              <span>현재 재생</span>
+              <svg class="button-icon pause-icon is-hidden" id="playPausePauseIcon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 5v14"></path>
+                <path d="M16 5v14"></path>
+              </svg>
             </button>
-            <button class="secondary-action hero-action-button" id="previousClipButton" type="button" data-action-state="previous" aria-pressed="false">
+            <button class="secondary-action hero-action-button" id="previousClipButton" type="button" data-action-state="previous" aria-label="이전 큐" title="이전 큐" aria-pressed="false">
               <svg class="button-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="m18 17-5-5 5-5"></path>
                 <path d="m11 17-5-5 5-5"></path>
               </svg>
-              <span>이전 재생</span>
             </button>
-            <button class="secondary-action hero-action-button" id="nextClipButton" type="button" data-action-state="next" aria-pressed="false">
+            <button class="secondary-action hero-action-button" id="nextClipButton" type="button" data-action-state="next" aria-label="다음 큐" title="다음 큐" aria-pressed="false">
               <svg class="button-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="m6 17 5-5-5-5"></path>
                 <path d="m13 17 5-5-5-5"></path>
               </svg>
-              <span>다음 재생</span>
             </button>
-            <button class="secondary-action hero-action-button" id="stopPlaybackButton" type="button" data-action-state="stop" aria-pressed="false">
+            <button class="secondary-action hero-action-button" id="stopPlaybackButton" type="button" data-action-state="stop" aria-label="정지" title="정지" aria-pressed="false">
               <svg class="button-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <rect width="12" height="12" x="6" y="6" rx="2"></rect>
               </svg>
-              <span>중지</span>
             </button>
             <button class="icon-action hero-action-button" id="successChimeButton" type="button" data-action-state="success" aria-label="성공음 재생" title="성공음" aria-pressed="false">
               <svg class="button-icon" viewBox="0 0 24 24" aria-hidden="true">

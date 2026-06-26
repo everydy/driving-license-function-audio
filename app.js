@@ -98,6 +98,9 @@ const emergencyLoopState = $("#emergencyLoopState");
 const signalLight = $("#signalLight");
 const emergencyMinInput = $("#emergencyMinSeconds");
 const emergencyMaxInput = $("#emergencyMaxSeconds");
+const playCurrentButton = $("#playCurrentButton");
+const playPausePlayIcon = $("#playPausePlayIcon");
+const playPausePauseIcon = $("#playPausePauseIcon");
 const heroActionButtons = [...document.querySelectorAll(".hero-action-button")];
 const fullActionButtons = [...document.querySelectorAll(".full-action-button")];
 
@@ -122,6 +125,14 @@ function setFullActionState(action) {
 function setAudioStatus(text, ready = false) {
   audioStatus.textContent = text;
   statusDot.classList.toggle("is-ready", ready);
+}
+
+function updatePlayPauseButton() {
+  const isPlaying = Boolean(activeAudio && !activeAudio.paused);
+  playPausePlayIcon.classList.toggle("is-hidden", isPlaying);
+  playPausePauseIcon.classList.toggle("is-hidden", !isPlaying);
+  playCurrentButton.setAttribute("aria-label", isPlaying ? "일시정지" : "재생");
+  playCurrentButton.setAttribute("title", isPlaying ? "일시정지" : "재생");
 }
 
 function primaryQueueLabel() {
@@ -157,6 +168,7 @@ function stopAudio() {
   activeAudio.pause();
   activeAudio.currentTime = 0;
   activeAudio = null;
+  updatePlayPauseButton();
 }
 
 function clearQueueDelay() {
@@ -179,20 +191,47 @@ function playAudioClip(clip, onEnded) {
 
   stopAudio();
   activeAudio = new Audio(clip.file);
+  const audio = activeAudio;
   activeAudio.addEventListener("error", () => {
+    if (activeAudio === audio) activeAudio = null;
+    updatePlayPauseButton();
     setAudioStatus(`파일 확인 필요: ${clip.file}`, false);
   }, { once: true });
   activeAudio.addEventListener("ended", () => {
+    if (activeAudio === audio) activeAudio = null;
+    updatePlayPauseButton();
     setAudioStatus("재생 완료", true);
     if (typeof onEnded === "function") onEnded();
   }, { once: true });
 
   return activeAudio.play()
-    .then(() => setAudioStatus(`재생 중: ${clip.title}`, true))
+    .then(() => {
+      updatePlayPauseButton();
+      setAudioStatus(`재생 중: ${clip.title}`, true);
+    })
     .catch((error) => {
+      if (activeAudio === audio) activeAudio = null;
+      updatePlayPauseButton();
       setAudioStatus("재생 차단 · 다시 눌러주세요", false);
       throw error;
     });
+}
+
+function pauseActiveAudio() {
+  if (!activeAudio || activeAudio.paused) return;
+  activeAudio.pause();
+  updatePlayPauseButton();
+  setAudioStatus("일시정지", true);
+}
+
+function resumeActiveAudio() {
+  if (!activeAudio || !activeAudio.paused) return;
+  activeAudio.play()
+    .then(() => {
+      updatePlayPauseButton();
+      setAudioStatus(`재생 중: ${currentClip.title}`, true);
+    })
+    .catch(() => setAudioStatus("재생 차단 · 다시 눌러주세요", false));
 }
 
 function playStandaloneClip(id) {
@@ -208,21 +247,27 @@ function playSuccessChime() {
 }
 
 function playHeroCurrent() {
-  setHeroActionState("current");
+  setHeroActionState("playPause");
   if (activeQueueName === "전체 순차") setFullActionState("current");
+  if (activeAudio && !activeAudio.paused) {
+    pauseActiveAudio();
+    return;
+  }
+  if (activeAudio && activeAudio.paused) {
+    resumeActiveAudio();
+    return;
+  }
   playActiveQueueClip();
 }
 
 function playHeroPrevious() {
   setHeroActionState("previous");
-  if (activeQueueName === "전체 순차") setFullActionState("current");
-  playPreviousInActiveQueue();
+  moveActiveQueueBlock("previous");
 }
 
 function playHeroNext() {
   setHeroActionState("next");
-  if (activeQueueName === "전체 순차") setFullActionState("current");
-  playNextInActiveQueue();
+  moveActiveQueueBlock("next");
 }
 
 function stopHeroPlayback() {
@@ -237,6 +282,38 @@ function playHeroSuccessChime() {
 
 function clipsFromIds(ids) {
   return ids.map((id) => clipMap.get(id)).filter(Boolean);
+}
+
+function queueBlockKey(clip) {
+  return clip.taskSet || clip.minorNumber || clip.middleNumber || clip.id;
+}
+
+function blockStartIndex(index) {
+  if (!activeQueue[index]) return 0;
+  const key = queueBlockKey(activeQueue[index]);
+  let start = index;
+  while (start > 0 && queueBlockKey(activeQueue[start - 1]) === key) {
+    start -= 1;
+  }
+  return start;
+}
+
+function nextBlockStartIndex(index) {
+  if (!activeQueue[index]) return 0;
+  const key = queueBlockKey(activeQueue[index]);
+  let next = index + 1;
+  while (next < activeQueue.length && queueBlockKey(activeQueue[next]) === key) {
+    next += 1;
+  }
+  return Math.min(next, activeQueue.length - 1);
+}
+
+function previousBlockStartIndex(index) {
+  if (!activeQueue[index]) return 0;
+  const currentStart = blockStartIndex(index);
+  if (currentStart < index) return currentStart;
+  if (currentStart === 0) return 0;
+  return blockStartIndex(currentStart - 1);
 }
 
 function displayNumber(value) {
@@ -436,21 +513,19 @@ function advanceQueueAfterClip() {
   setAudioStatus(`${activeQueueName} 완료`, true);
 }
 
-function playNextInActiveQueue() {
-  if (activeQueueIndex < activeQueue.length - 1) {
-    activeQueueIndex += 1;
+function moveActiveQueueBlock(direction) {
+  if (!activeQueue.length) return;
+  clearQueueDelay();
+  const targetIndex = direction === "next"
+    ? nextBlockStartIndex(activeQueueIndex)
+    : previousBlockStartIndex(activeQueueIndex);
+  if (targetIndex === activeQueueIndex) {
+    setAudioStatus(direction === "next" ? "다음 큐 없음" : "이전 큐 없음", true);
+    return;
   }
-  activeQueueMode = "manual";
-  renderQueues();
-  updateQueueStatus();
-  playActiveQueueClip();
-}
-
-function playPreviousInActiveQueue() {
-  if (activeQueueIndex > 0) {
-    activeQueueIndex -= 1;
-  }
-  activeQueueMode = "manual";
+  activeQueueIndex = targetIndex;
+  activeQueueMode = "auto";
+  if (activeQueueName === "전체 순차") setFullActionState("auto");
   renderQueues();
   updateQueueStatus();
   playActiveQueueClip();

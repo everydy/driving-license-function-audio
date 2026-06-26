@@ -327,6 +327,11 @@ h3 {
   position: relative;
 }
 
+.hero-actions .hero-action-button {
+  width: 46px;
+  padding: 0;
+}
+
 .button-icon {
   width: var(--icon-size);
   height: var(--icon-size);
@@ -336,6 +341,10 @@ h3 {
   stroke-linecap: round;
   stroke-linejoin: round;
   flex: 0 0 auto;
+}
+
+.button-icon.is-hidden {
+  display: none;
 }
 
 .primary-action,
