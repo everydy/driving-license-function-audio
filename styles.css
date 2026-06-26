@@ -53,7 +53,7 @@
   --color-hero-text: var(--ref-true-white);
   --color-hero-muted: rgba(255, 255, 255, 0.82);
 
-  --font-sans: Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-size-xs: 12px;
   --font-size-sm: 13px;
   --font-size-md: 15px;

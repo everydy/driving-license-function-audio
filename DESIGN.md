@@ -37,10 +37,10 @@ The palette combines warm paper neutrals, pine/teal controls, blue cue accents, 
 
 ## Typography
 
-The font stack is system-first:
+The app loads Pretendard before the local stylesheet and uses it as the first font family across the UI:
 
 ```css
-font-family: Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 ```
 
 Use the defined type tokens instead of viewport-scaled type. Button and compact panel labels stay smaller and tighter than hero text.
