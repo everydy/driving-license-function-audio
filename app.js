@@ -659,9 +659,13 @@ function stopEmergencyLoop() {
 function bindTabs() {
   document.querySelectorAll(".tab-button").forEach((button) => {
     button.addEventListener("click", () => {
-      document.querySelectorAll(".tab-button").forEach((tab) => tab.classList.remove("is-active"));
+      document.querySelectorAll(".tab-button").forEach((tab) => {
+        tab.classList.remove("is-active");
+        tab.setAttribute("aria-pressed", "false");
+      });
       document.querySelectorAll(".tab-panel").forEach((panel) => panel.classList.remove("is-active"));
       button.classList.add("is-active");
+      button.setAttribute("aria-pressed", "true");
       $(`#${button.dataset.tab}Panel`).classList.add("is-active");
     });
   });
