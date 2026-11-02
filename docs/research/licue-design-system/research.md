@@ -6,20 +6,20 @@ Build a design-system foundation for LiCue so the app has stable color, typograp
 
 ## Scope And Entry Points
 
-- Target screen: `/Users/moonsoo/projects/driving-license-function-audio/index.html`
-- Style owner: `/Users/moonsoo/projects/driving-license-function-audio/styles.css`
-- Behavior owner: `/Users/moonsoo/projects/driving-license-function-audio/app.js`
+- Target screen: `/Users/moonsoo/projects/apps/driving-license-function-audio/index.html`
+- Style owner: `/Users/moonsoo/projects/apps/driving-license-function-audio/styles.css`
+- Behavior owner: `/Users/moonsoo/projects/apps/driving-license-function-audio/app.js`
 - Public docs surface: `DESIGN.md`, `docs/design-decisions.md`, `docs/design-components/README.md`
 - Review target: local app at `http://127.0.0.1:8765/index.html`
 
 ## Relevant Files
 
-- `/Users/moonsoo/projects/driving-license-function-audio/index.html`
-- `/Users/moonsoo/projects/driving-license-function-audio/styles.css`
-- `/Users/moonsoo/projects/driving-license-function-audio/app.js`
-- `/Users/moonsoo/projects/driving-license-function-audio/README.md`
-- `/Users/moonsoo/projects/driving-license-function-audio/.gitignore`
-- `/Users/moonsoo/projects/driving-license-function-audio/docs/plans/2026-06-26-licue-branding.md`
+- `/Users/moonsoo/projects/apps/driving-license-function-audio/index.html`
+- `/Users/moonsoo/projects/apps/driving-license-function-audio/styles.css`
+- `/Users/moonsoo/projects/apps/driving-license-function-audio/app.js`
+- `/Users/moonsoo/projects/apps/driving-license-function-audio/README.md`
+- `/Users/moonsoo/projects/apps/driving-license-function-audio/.gitignore`
+- `/Users/moonsoo/projects/apps/driving-license-function-audio/docs/plans/2026-06-26-licue-branding.md`
 
 ## Current Behavior
 
